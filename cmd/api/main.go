@@ -1,14 +1,17 @@
 package main
 
 import (
-	"net/http"
+	"RunningTracker/internal/app"
+
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	e := echo.New()
-	e.GET("/", func (c echo.Context) error {
-		return c.String(http.StatusOK, "Salve")
-	})
-	e.Logger.Fatal(e.Start(":1323"))
+
+	deps := app.SetupDependencies()
+
+	app.SetupRoutes(e, deps.RunnerHandler)
+
+	e.Start(":8080")
 }
