@@ -10,8 +10,6 @@ import (
 type RunnerRepository interface {
 	Create(runner *entities.Runner) error
 }
-
-
 type runnerRepository struct {
 	db *gorm.DB
 }

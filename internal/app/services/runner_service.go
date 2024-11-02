@@ -8,7 +8,7 @@ import (
 
 // Define o contrato para os serviços que lidam com a lógica do negócio
 type RunnerService interface {
-	CreateRunner(name string, Age int) (*entities.Runner, error)
+	CreateRunner(name string, age int) (*entities.Runner, error)
 }
 
 // Implementação da interface
