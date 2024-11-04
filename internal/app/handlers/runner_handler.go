@@ -18,7 +18,7 @@ func NewRunnerHandler(service services.RunnerService) *RunnerHandler {
 
 /*
 	Método que recebe a requisição HTTP
-	
+
 */
 func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 	var req struct {
@@ -27,12 +27,12 @@ func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 	}
 
 	if err := c.Bind(&req); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid output"})
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	runner, err := h.service.CreateRunner(req.Name, req.Age)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.JSON(http.StatusCreated, runner)
