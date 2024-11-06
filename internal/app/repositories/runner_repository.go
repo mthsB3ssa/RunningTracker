@@ -9,6 +9,8 @@ import (
 // Define o contrato para o repositório
 type RunnerRepository interface {
 	Create(runner *entities.Runner) error
+	Update(runner *entities.Runner) error
+	Delete(id uint) error
 }
 type runnerRepository struct {
 	db *gorm.DB
@@ -20,6 +22,14 @@ func NewRunnerRepository(db *gorm.DB) RunnerRepository {
 }
 
 // Método que usa o GORM para salvar a entidade Runner
-func (r *runnerRepository) Create(runner *entities.Runner) error {
-	return r.db.Create(runner).Error
+func (repo *runnerRepository) Create(runner *entities.Runner) error {
+	return repo.db.Create(runner).Error
+}
+
+func (repo *runnerRepository) Update(runner *entities.Runner) error {
+	return repo.db.Model(&runner).Updates(runner).Error
+}
+
+func (repo *runnerRepository) Delete(id uint) error {
+	return repo.db.Delete(&entities.Runner{}, id).Error
 }

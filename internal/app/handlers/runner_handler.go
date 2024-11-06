@@ -37,3 +37,10 @@ func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, runner)
 }
+
+func (h *RunnerHandler) GetRunner(c echo.Context) error {
+}
+
+func (h *RunnerHandler) DeleteRunner(c echo.Context) error {
+}
+^
