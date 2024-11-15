@@ -3,6 +3,7 @@ package handlers
 import (
 	"RunningTracker/internal/app/services"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -38,7 +39,19 @@ func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 	return c.JSON(http.StatusCreated, runner)
 }
 
-func (h *RunnerHandler) GetRunner(c echo.Context) error {+
+func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
+	id := c.Param("id")
+
+	idInt, err := strconv.ParseUint(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	updateRunner, err := h.service.UpdateRunner(idInt)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, updateRunner)
 }
 
 func (h *RunnerHandler) DeleteRunner(c echo.Context) error {
