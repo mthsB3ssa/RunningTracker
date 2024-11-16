@@ -32,7 +32,7 @@ func main() {
 	runnerHandler := handlers.NewRunnerHandler(runnerService)
 
 	// Rota para criar um novo corredor
-	routes := app.SetupRoutes(e, runnerHandler)
+	app.SetupRoutes(e, runnerHandler)
 
 	e.Start(":8080")
 }

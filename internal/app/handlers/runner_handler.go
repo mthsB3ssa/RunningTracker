@@ -40,7 +40,7 @@ func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 }
 
 func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
-	id := c.Param("id")
+	id, _ := strconv.Atoi(c.Param("id"))
 
 	var req struct {
 		Name string `json:"name"`
@@ -51,12 +51,7 @@ func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	idUint, err := strconv.ParseUint(id, 10, 32)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
-	}
-
-	updateRunner, err := h.service.UpdateRunner(idUint, req.Name, req.Age)
+	updateRunner, err := h.service.UpdateRunner(id, req.Name, req.Age)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -64,5 +59,5 @@ func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 }
 
 func (h *RunnerHandler) DeleteRunner(c echo.Context) error {
+	return nil
 }
-^

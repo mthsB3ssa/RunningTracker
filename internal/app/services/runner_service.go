@@ -12,7 +12,7 @@ import (
 // Define o contrato para os serviços que lidam com a lógica do negócio
 type RunnerService interface {
 	CreateRunner(name string, age int) (*entities.Runner, error)
-	UpdateRunner(id uint, name string, age int) (*entities.Runner, error)
+	UpdateRunner(id int, name string, age int) (*entities.Runner, error)
 }
 
 // Implementação da interface
@@ -41,7 +41,7 @@ func (s *runnerService) CreateRunner(name string, age int) (*entities.Runner, er
 	return runner, nil
 }
 
-func (s *runnerService) UpdateRunner(id uint, name string, age int) (*entities.Runner, error) {
+func (s *runnerService) UpdateRunner(id int, name string, age int) (*entities.Runner, error) {
 	existingRunner, err := s.repo.FindById(id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
