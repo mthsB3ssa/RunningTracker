@@ -42,12 +42,21 @@ func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 	id := c.Param("id")
 
-	idInt, err := strconv.ParseUint(id)
+	var req struct {
+		Name string `json:"name"`
+		Age  int    `json:"age"`
+	}
+
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	idUint, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	updateRunner, err := h.service.UpdateRunner(idInt)
+	updateRunner, err := h.service.UpdateRunner(idUint, req.Name, req.Age)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
