@@ -59,5 +59,12 @@ func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 }
 
 func (h *RunnerHandler) DeleteRunner(c echo.Context) error {
-	return nil
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	err := h.service.DeleteRunner(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.NoContent(http.StatusNoContent)
 }
