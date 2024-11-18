@@ -13,6 +13,7 @@ import (
 type RunnerService interface {
 	CreateRunner(name string, age int) (*entities.Runner, error)
 	UpdateRunner(id int, name string, age int) (*entities.Runner, error)
+	DeleteRunner(id int) error
 }
 
 // Implementação da interface
@@ -65,4 +66,8 @@ func (s *runnerService) UpdateRunner(id int, name string, age int) (*entities.Ru
 		return nil, err
 	}
 	return existingRunner, nil
+}
+
+func (s *runnerService) DeleteRunner(id int) error {
+	return s.repo.Delete(id)
 }
