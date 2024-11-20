@@ -9,6 +9,7 @@ import (
 func SetupRoutes(e *echo.Echo, runnerHandler *handlers.RunnerHandler) {
 	// Grupo de rotas para o recurso Runner
 	e.POST("/runners", runnerHandler.CreateRunner)
+	e.GET("/runners/:id", runnerHandler.FindById)
 	e.PUT("/runners/:id", runnerHandler.UpdateRunner)
 	e.DELETE("/runners/:id", runnerHandler.DeleteRunner)
 }

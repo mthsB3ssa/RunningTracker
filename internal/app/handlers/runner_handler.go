@@ -17,10 +17,6 @@ func NewRunnerHandler(service services.RunnerService) *RunnerHandler {
 	return &RunnerHandler{service: service}
 }
 
-/*
-	Método que recebe a requisição HTTP
-
-*/
 func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 	var req struct {
 		Name string `json:"name" validate:"required"`
@@ -37,6 +33,19 @@ func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, runner)
+}
+
+func (h *RunnerHandler) FindById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	runner, err := h.service.FindById(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, runner)
 }
 
 func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
