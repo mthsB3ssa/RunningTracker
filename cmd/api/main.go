@@ -6,6 +6,7 @@ import (
 	"RunningTracker/internal/app/handlers"
 	"RunningTracker/internal/app/repositories"
 	"RunningTracker/internal/app/services"
+	"RunningTracker/pkg/middleware"
 	"log"
 
 	"github.com/labstack/echo/v4"
@@ -33,6 +34,8 @@ func main() {
 
 	// Rota para criar um novo corredor
 	app.SetupRoutes(e, runnerHandler)
+
+	e.Use(middleware.Logger)
 
 	e.Start(":8080")
 }
