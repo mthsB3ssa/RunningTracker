@@ -5,6 +5,7 @@ import "time"
 type Race struct {
 	ID            int           `json:"id" gorm:"primaryKey"`
 	RunnerID      int           `json:"runner_id"`
+	Runner        Runner        `gorm:"foreignKey:RunnerID" json:"runner"`
 	Distance      float64       `json:"distance"`
 	Pace          float64       `json:"pace"`
 	Duration      time.Duration `json:"duration"`
