@@ -4,6 +4,8 @@ import (
 	"RunningTracker/internal/app/entities"
 	"RunningTracker/internal/app/repositories"
 	"time"
+
+	"golang.org/x/text/date"
 )
 
 type RaceService interface {
@@ -20,11 +22,13 @@ func NewRaceService(repo repositories.RaceRepository) RaceService {
 	return &raceService{repo: repo}
 }
 
-func (s *raceService) CreateRace(runnerId int, distance float64, duration float64, typeOfRunning string, time)(*entities.Race, error){
+func (s *raceService) CreateRace(runnerId int, distance float64, duration *float64, typeOfRunning string, date time.Time)(*entities.Race, error){
 	race := &entities.Race{
+		RunnerID: runnerId,
 		Distance: distance,
 		Duration: duration,
 		TypeOfRunning: typeOfRunning,
+		Date: date,
 	}
 
 	err := s.repo.Create(race)
