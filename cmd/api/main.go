@@ -26,14 +26,19 @@ func main() {
 
 	// Realiza a migração da entidade Runner
 	db.AutoMigrate(&entities.Runner{})
+	db.AutoMigrate(&entities.Race{})
 
 	// Configuração das dependências
 	runnerRepo := repositories.NewRunnerRepository(db)
 	runnerService := services.NewRunnerService(runnerRepo)
 	runnerHandler := handlers.NewRunnerHandler(runnerService)
 
+	raceRepo := repositories.NewRaceRepository(db)
+	raceService := services.NewRaceService(raceRepo)
+	raceHandler := handlers.NewRaceHandler(raceService)
+
 	// Rota para criar um novo corredor
-	app.SetupRoutes(e, runnerHandler)
+	app.SetupRoutes(e, runnerHandler, raceHandler)
 
 	e.Use(middleware.Logger)
 

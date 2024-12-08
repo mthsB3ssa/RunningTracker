@@ -4,13 +4,11 @@ import (
 	"RunningTracker/internal/app/entities"
 	"RunningTracker/internal/app/repositories"
 	"time"
-
-	"golang.org/x/text/date"
 )
 
 type RaceService interface {
-	CreateRace(runnerId int, distance float64, duration float64, typeOfRunning string, date time) (*entities.Race, error)
-	FindById (id int) error
+	CreateRace(runnerId int, distance float64, duration float64, typeOfRunning string) (*entities.Race, error)
+	FindById(id int) (*entities.Race, error)
 	DeleteRace(id int) error
 }
 
@@ -22,13 +20,13 @@ func NewRaceService(repo repositories.RaceRepository) RaceService {
 	return &raceService{repo: repo}
 }
 
-func (s *raceService) CreateRace(runnerId int, distance float64, duration *float64, typeOfRunning string, date time.Time)(*entities.Race, error){
+func (s *raceService) CreateRace(runnerId int, distance float64, duration float64, typeOfRunning string) (*entities.Race, error) {
 	race := &entities.Race{
-		RunnerID: runnerId,
-		Distance: distance,
-		Duration: duration,
+		RunnerID:      runnerId,
+		Distance:      distance,
+		Duration:      duration,
 		TypeOfRunning: typeOfRunning,
-		Date: date,
+		Date:          time.Now(),
 	}
 
 	err := s.repo.Create(race)
@@ -38,7 +36,7 @@ func (s *raceService) CreateRace(runnerId int, distance float64, duration *float
 	return race, nil
 }
 
-func (s *raceService) FindById(id int) error{
+func (s *raceService) FindById(id int) (*entities.Race, error) {
 	return s.repo.FindById(id)
 }
 
