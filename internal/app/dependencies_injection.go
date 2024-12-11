@@ -2,13 +2,15 @@ package app
 
 import (
 	"RunningTracker/internal/app/handlers"
+	"RunningTracker/internal/app/repositories"
+	"RunningTracker/internal/app/services"
+	"RunningTracker/internal/infra/db"
 )
 
 type Dependencies struct {
 	RunnerHandler *handlers.RunnerHandler
 }
 
-/*
 func SetupDependencies() *Dependencies {
 	database := db.NewDataBaseConnection()
 
@@ -20,4 +22,3 @@ func SetupDependencies() *Dependencies {
 		RunnerHandler: runnerHandler,
 	}
 }
-*/

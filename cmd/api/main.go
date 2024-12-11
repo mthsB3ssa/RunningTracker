@@ -6,24 +6,29 @@ import (
 	"RunningTracker/internal/app/handlers"
 	"RunningTracker/internal/app/repositories"
 	"RunningTracker/internal/app/services"
+	"RunningTracker/internal/infra/db"
 	"RunningTracker/pkg/middleware"
 	"log"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
 )
+
+func init() {
+	// Carrega o arquivo .env
+	err := godotenv.Load("../../.env")
+	if err != nil {
+		log.Fatalf("Erro ao carregar o arquivo .env: %v", err)
+	}
+}
 
 func main() {
 	e := echo.New()
 
 	//deps := app.SetupDependencies()
 	//app.SetupRoutes(e, deps.RunnerHandler)
-	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
-	if err != nil {
-		log.Fatalf("Erro ao conectar com o banco de dados: %v", err)
-	}
 
+	db := db.NewDataBaseConnection()
 	// Realiza a migração da entidade Runner
 	db.AutoMigrate(&entities.Runner{})
 	db.AutoMigrate(&entities.Race{})
@@ -38,6 +43,7 @@ func main() {
 	raceHandler := handlers.NewRaceHandler(raceService)
 
 	// Rota para criar um novo corredor
+	app.SetupDependencies()
 	app.SetupRoutes(e, runnerHandler, raceHandler)
 
 	e.Use(middleware.Logger)

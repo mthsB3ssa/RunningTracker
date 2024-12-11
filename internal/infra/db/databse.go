@@ -1,25 +1,31 @@
 package db
 
 import (
+	"RunningTracker/internal/app/entities"
 	"log"
+	"os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-// const (
-// 	host = "localhost"
-// 	port = 5432
-// 	user = "postgres"
-// 	password = "postgres"
-// 	dbName = "RunningDB"
-// )
-
 func NewDataBaseConnection() *gorm.DB {
-	dsn := "host=localhost user=bessa password=bessa dbname=RunningDB port=9920 sslmode=disable"
+
+	// Constrói o DSN a partir das variáveis de ambiente
+	dsn := "host=" + os.Getenv("DB_HOST") +
+		" user=" + os.Getenv("DB_USER") +
+		" password=" + os.Getenv("DB_PASSWORD") +
+		" dbname=" + os.Getenv("DB_NAME") +
+		" port=" + os.Getenv("DB_PORT") +
+		" sslmode=disable"
+
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to connect to database: %v", err)
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
+
+	db.AutoMigrate(&entities.Race{})
+	db.AutoMigrate(&entities.Runner{})
+
 	return db
 }
