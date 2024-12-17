@@ -8,19 +8,9 @@ import (
 	"RunningTracker/internal/app/services"
 	"RunningTracker/internal/infra/db"
 	"RunningTracker/pkg/middleware"
-	"log"
 
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 )
-
-func init() {
-	// Carrega o arquivo .env
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("Erro ao carregar o arquivo .env: %v", err)
-	}
-}
 
 func main() {
 	e := echo.New()
