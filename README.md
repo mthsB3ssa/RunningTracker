@@ -11,10 +11,12 @@ To manage the application containers, you can use the provided `Makefile` comman
    make up
   ```
 
-Stop the containers:
+**Stop the containers**:
+   ```bash
+   make down
+  ```
 
-make down
-
-Restart the containers:
-
+**Restart the containers**:
+```bash
 make restart
+```
