@@ -13,8 +13,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /app/main ./cmd/api
 
 EXPOSE 8080
 
-# Stage 2: Final Image
 
+# Stage 2: Final Image
 FROM debian:bullseye-slim
 
 WORKDIR /app
