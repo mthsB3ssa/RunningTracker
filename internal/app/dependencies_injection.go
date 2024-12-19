@@ -9,6 +9,7 @@ import (
 
 type Dependencies struct {
 	RunnerHandler *handlers.RunnerHandler
+	RaceHandler   *handlers.RaceHandler
 }
 
 func SetupDependencies() *Dependencies {
@@ -18,7 +19,12 @@ func SetupDependencies() *Dependencies {
 	runnerService := services.NewRunnerService(runnerRepo)
 	runnerHandler := handlers.NewRunnerHandler(runnerService)
 
+	raceRepo := repositories.NewRaceRepository(database)
+	raceService := services.NewRaceService(raceRepo)
+	raceHandler := handlers.NewRaceHandler(raceService)
+
 	return &Dependencies{
 		RunnerHandler: runnerHandler,
+		RaceHandler:   raceHandler,
 	}
 }
