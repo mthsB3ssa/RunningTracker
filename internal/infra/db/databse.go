@@ -24,8 +24,7 @@ func NewDataBaseConnection() *gorm.DB {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	db.AutoMigrate(&entities.Race{})
-	db.AutoMigrate(&entities.Runner{})
+	db.AutoMigrate(&entities.Race{}, &entities.Runner{})
 
 	return db
 }
