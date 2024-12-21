@@ -3,9 +3,6 @@ package main
 import (
 	"RunningTracker/internal/app"
 	"RunningTracker/internal/app/entities"
-	"RunningTracker/internal/app/handlers"
-	"RunningTracker/internal/app/repositories"
-	"RunningTracker/internal/app/services"
 	"RunningTracker/internal/infra/db"
 	"RunningTracker/pkg/middleware"
 
@@ -23,18 +20,9 @@ func main() {
 	db.AutoMigrate(&entities.Runner{})
 	db.AutoMigrate(&entities.Race{})
 
-	// Configuração das dependências
-	runnerRepo := repositories.NewRunnerRepository(db)
-	runnerService := services.NewRunnerService(runnerRepo)
-	runnerHandler := handlers.NewRunnerHandler(runnerService)
-
-	raceRepo := repositories.NewRaceRepository(db)
-	raceService := services.NewRaceService(raceRepo)
-	raceHandler := handlers.NewRaceHandler(raceService)
-
 	// Rota para criar um novo corredor
-	app.SetupDependencies()
-	app.SetupRoutes(e, runnerHandler, raceHandler)
+	dependencies := app.SetupDependencies()
+	app.SetupRoutes(e, dependencies.RunnerHandler, dependencies.RaceHandler)
 
 	e.Use(middleware.Logger)
 
