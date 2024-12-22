@@ -12,6 +12,7 @@ import (
 // Define o contrato para os serviços que lidam com a lógica do negócio
 type RunnerService interface {
 	CreateRunner(name string, age int) (*entities.Runner, error)
+	GetUsers() ([]entities.Runner, error)
 	FindById(id int) (*entities.Runner, error)
 	UpdateRunner(id int, name string, age int) (*entities.Runner, error)
 	DeleteRunner(id int) error
@@ -41,6 +42,23 @@ func (s *runnerService) CreateRunner(name string, age int) (*entities.Runner, er
 		return nil, err
 	}
 	return runner, nil
+}
+
+func (s *runnerService) GetUsers() ([]entities.Runner, error) {
+	result, err := s.repo.GetUsers()
+
+	var runners []entities.Runner
+	for _, value := range result {
+		runner := &entities.Runner{
+			Name:      value.Name,
+			Age:       value.Age,
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
+		}
+		runners = append(runners, *runner)
+	}
+
+	return runners, err
 }
 
 func (s *runnerService) FindById(id int) (*entities.Runner, error) {
