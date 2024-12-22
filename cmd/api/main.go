@@ -12,9 +12,6 @@ import (
 func main() {
 	e := echo.New()
 
-	//deps := app.SetupDependencies()
-	//app.SetupRoutes(e, deps.RunnerHandler)
-
 	db := db.NewDataBaseConnection()
 	// Realiza a migração da entidade Runner
 	db.AutoMigrate(&entities.Runner{})
