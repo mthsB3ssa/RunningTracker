@@ -38,7 +38,10 @@ func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 func (h *RunnerHandler) GetUsers(c echo.Context) error {
 	runner, err := h.service.GetUsers()
 
-	
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, runner)
 }
 
 func (h *RunnerHandler) FindById(c echo.Context) error {
