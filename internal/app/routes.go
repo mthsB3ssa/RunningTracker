@@ -16,6 +16,7 @@ func SetupRoutes(e *echo.Echo, runnerHandler *handlers.RunnerHandler, raceHandle
 
 	//Group of routes to the Race
 	e.POST("/races", raceHandler.CreateRace)
+	e.GET("races", raceHandler.GetRaces)
 	e.GET("/races/:id", raceHandler.FindById)
 	e.DELETE("/races/:id", raceHandler.FindById)
 }
