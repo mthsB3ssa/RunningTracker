@@ -9,6 +9,7 @@ import (
 // RaceRepository is the interface that wraps the basic methods to interact with the database
 type RaceRepository interface {
 	Create(race *entities.Race) error
+	GetRaces() ([]entities.Race, error)
 	FindById(id int) (*entities.Race, error)
 	Delete(id int) error
 }
@@ -25,6 +26,15 @@ func NewRaceRepository(db *gorm.DB) RaceRepository {
 
 func (repo *raceRepository) Create(race *entities.Race) error {
 	return repo.db.Create(race).Error
+}
+
+func (repo *raceRepository) GetRaces() ([]entities.Race, error) {
+	var race []entities.Race
+	err := repo.db.Find(&race).Error
+	if err != nil {
+		return nil, err
+	}
+	return race, nil
 }
 
 func (repo raceRepository) FindById(id int) (*entities.Race, error) {

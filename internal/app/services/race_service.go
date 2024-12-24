@@ -9,6 +9,7 @@ import (
 // RaceService is the interface that wraps the basic methods to interact with the database
 type RaceService interface {
 	CreateRace(runnerId int, distance float64, duration float64, typeOfRunning string) (*entities.Race, error)
+	GetRaces() ([]entities.Race, error)
 	FindById(id int) (*entities.Race, error)
 	DeleteRace(id int) error
 }
@@ -37,6 +38,14 @@ func (s *raceService) CreateRace(runnerId int, distance float64, duration float6
 		return nil, err
 	}
 	return race, nil
+}
+
+func (s *raceService) GetRaces() ([]entities.Race, error) {
+	races, err := s.repo.GetRaces()
+	if err != nil {
+		return nil, err
+	}
+	return races, nil
 }
 
 func (s *raceService) FindById(id int) (*entities.Race, error) {

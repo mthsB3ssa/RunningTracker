@@ -38,6 +38,14 @@ func (h *RaceHandler) CreateRace(c echo.Context) error {
 	return c.JSON(http.StatusCreated, race)
 }
 
+func (h *RaceHandler) GetRaces(c echo.Context) error {
+	race, err := h.service.GetRaces()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusFound, race)
+}
+
 func (h *RaceHandler) FindById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
