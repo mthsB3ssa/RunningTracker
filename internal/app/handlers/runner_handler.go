@@ -35,6 +35,15 @@ func (h *RunnerHandler) CreateRunner(c echo.Context) error {
 	return c.JSON(http.StatusCreated, runner)
 }
 
+func (h *RunnerHandler) GetUsers(c echo.Context) error {
+	runner, err := h.service.GetUsers()
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, runner)
+}
+
 func (h *RunnerHandler) FindById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

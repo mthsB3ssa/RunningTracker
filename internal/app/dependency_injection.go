@@ -5,14 +5,17 @@ import (
 	"RunningTracker/internal/app/repositories"
 	"RunningTracker/internal/app/services"
 	"RunningTracker/internal/infra/db"
+
+	"gorm.io/gorm"
 )
 
 type Dependencies struct {
+	DB            *gorm.DB
 	RunnerHandler *handlers.RunnerHandler
 	RaceHandler   *handlers.RaceHandler
 }
 
-func SetupDependencies() *Dependencies {
+func SetupDependencies() (*Dependencies, error) {
 	database := db.NewDataBaseConnection()
 
 	runnerRepo := repositories.NewRunnerRepository(database)
@@ -26,5 +29,6 @@ func SetupDependencies() *Dependencies {
 	return &Dependencies{
 		RunnerHandler: runnerHandler,
 		RaceHandler:   raceHandler,
-	}
+		DB:            database,
+	}, nil
 }

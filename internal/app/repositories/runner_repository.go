@@ -9,6 +9,7 @@ import (
 // Define o contrato para o repositório
 type RunnerRepository interface {
 	Create(runner *entities.Runner) error
+	GetUsers() ([]entities.Runner, error)
 	Update(runner *entities.Runner) error
 	Delete(id int) error
 	FindById(id int) (*entities.Runner, error)
@@ -25,6 +26,15 @@ func NewRunnerRepository(db *gorm.DB) RunnerRepository {
 // Método que usa o GORM para salvar a entidade Runner
 func (repo *runnerRepository) Create(runner *entities.Runner) error {
 	return repo.db.Create(runner).Error
+}
+
+func (repo *runnerRepository) GetUsers() ([]entities.Runner, error) {
+	var runner []entities.Runner
+	err := repo.db.Find(&runner).Error
+	if err != nil {
+		return nil, err
+	}
+	return runner, nil
 }
 
 func (repo *runnerRepository) Update(runner *entities.Runner) error {
