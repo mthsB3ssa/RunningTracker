@@ -45,20 +45,11 @@ func (s *runnerService) CreateRunner(name string, age int) (*entities.Runner, er
 }
 
 func (s *runnerService) GetUsers() ([]entities.Runner, error) {
-	result, err := s.repo.GetUsers()
-
-	var runners []entities.Runner
-	for _, value := range result {
-		runner := &entities.Runner{
-			Name:      value.Name,
-			Age:       value.Age,
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
-		}
-		runners = append(runners, *runner)
+	runners, err := s.repo.GetUsers()
+	if err != nil {
+		return nil, err
 	}
-
-	return runners, err
+	return runners, nil
 }
 
 func (s *runnerService) FindById(id int) (*entities.Runner, error) {
