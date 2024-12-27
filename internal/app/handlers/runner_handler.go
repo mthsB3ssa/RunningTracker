@@ -86,3 +86,12 @@ func (h *RunnerHandler) DeleteRunner(c echo.Context) error {
 
 	return c.NoContent(http.StatusNoContent)
 }
+
+func (h *RunnerHandler) GetAllRunsByUser(c echo.Context) error {
+	runners, err := h.service.GetAllRunsByUser()
+
+	if err != nil {
+		return c.JSON(http.StatusNotFound, err.Error())
+	}
+	return c.JSON(http.StatusOK, runners)
+}

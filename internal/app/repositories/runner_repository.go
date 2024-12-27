@@ -13,7 +13,9 @@ type RunnerRepository interface {
 	Update(runner *entities.Runner) error
 	Delete(id int) error
 	FindById(id int) (*entities.Runner, error)
+	GetAllRunsByUser() ([]entities.Runner, error)
 }
+
 type runnerRepository struct {
 	db *gorm.DB
 }
@@ -52,4 +54,10 @@ func (repo *runnerRepository) FindById(id int) (*entities.Runner, error) {
 		return nil, err
 	}
 	return &runner, nil
+}
+
+func (repo *runnerRepository) GetAllRunsByUser() ([]entities.Runner, error) {
+	var runners []entities.Runner
+	err := repo.db.Model(&entities.Runner{}).Preload("Races").Find(&runners).Error
+	return runners, err
 }

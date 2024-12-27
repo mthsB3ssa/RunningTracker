@@ -16,6 +16,7 @@ type RunnerService interface {
 	FindById(id int) (*entities.Runner, error)
 	UpdateRunner(id int, name string, age int) (*entities.Runner, error)
 	DeleteRunner(id int) error
+	GetAllRunsByUser() ([]entities.Runner, error)
 }
 
 // Implementação da interface
@@ -84,4 +85,12 @@ func (s *runnerService) UpdateRunner(id int, name string, age int) (*entities.Ru
 
 func (s *runnerService) DeleteRunner(id int) error {
 	return s.repo.Delete(id)
+}
+
+func (s *runnerService) GetAllRunsByUser() ([]entities.Runner, error) {
+	runners, err := s.repo.GetAllRunsByUser()
+	if err != nil {
+		return nil, err
+	}
+	return runners, nil
 }
