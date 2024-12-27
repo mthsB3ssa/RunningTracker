@@ -5,9 +5,10 @@ import (
 )
 
 type Runner struct {
-	ID        int       `json:"id" gorm:"primaryKey"`
-	Name      string    `json:"name"`
-	Age       int       `json:"age"`
+	ID        int    `json:"id" gorm:"primaryKey"`
+	Name      string `json:"name"`
+	Age       int    `json:"age"`
+	Races     []Race
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
