@@ -88,8 +88,12 @@ func (h *RunnerHandler) DeleteRunner(c echo.Context) error {
 }
 
 func (h *RunnerHandler) GetAllRunsByUser(c echo.Context) error {
-	runners, err := h.service.GetAllRunsByUser()
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
 
+	runners, err := h.service.GetAllRunsByUser(id)
 	if err != nil {
 		return c.JSON(http.StatusNotFound, err.Error())
 	}

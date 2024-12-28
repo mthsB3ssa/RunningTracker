@@ -13,7 +13,7 @@ func SetupRoutes(e *echo.Echo, runnerHandler *handlers.RunnerHandler, raceHandle
 	e.GET("/runners/:id", runnerHandler.FindById)
 	e.PUT("/runners/:id", runnerHandler.UpdateRunner)
 	e.DELETE("/runners/:id", runnerHandler.DeleteRunner)
-	e.GET("/runs/:id,", runnerHandler.GetAllRunsByUser)
+	e.GET("/runs/:id", runnerHandler.GetAllRunsByUser)
 
 	//Group of routes to the Race
 	e.POST("/races", raceHandler.CreateRace)
