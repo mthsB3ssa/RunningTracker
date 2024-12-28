@@ -55,3 +55,4 @@ func (s *raceService) FindById(id int) (*entities.Race, error) {
 func (s *raceService) DeleteRace(id int) error {
 	return s.repo.Delete(id)
 }
+
