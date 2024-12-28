@@ -13,7 +13,7 @@ type RunnerRepository interface {
 	Update(runner *entities.Runner) error
 	Delete(id int) error
 	FindById(id int) (*entities.Runner, error)
-	GetAllRunsByUser() ([]entities.Runner, error)
+	GetAllRunsByUser(id int) ([]entities.Runner, error)
 }
 
 type runnerRepository struct {
@@ -56,8 +56,8 @@ func (repo *runnerRepository) FindById(id int) (*entities.Runner, error) {
 	return &runner, nil
 }
 
-func (repo *runnerRepository) GetAllRunsByUser() ([]entities.Runner, error) {
+func (repo *runnerRepository) GetAllRunsByUser(id int) ([]entities.Runner, error) {
 	var runners []entities.Runner
-	err := repo.db.Model(&entities.Runner{}).Preload("Races").Find(&runners).Error
+	err := repo.db.Model(&entities.Runner{}).Preload("Races").Find(&runners, id).Error
 	return runners, err
 }
