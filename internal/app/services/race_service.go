@@ -62,6 +62,7 @@ func (s *raceService) DeleteRace(id int) error {
 }
 
 func (s *raceService) CalculatePace(distance, duration float64) float64 {
+	// The duration needs to be passed in minutes
 	pace := (duration  / distance)
 	pace = math.Round(pace*100) / 100
 	return pace
