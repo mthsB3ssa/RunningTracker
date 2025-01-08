@@ -59,3 +59,17 @@ func (h *RaceHandler) FindById(c echo.Context) error {
 
 	return c.JSON(http.StatusFound, race)
 }
+
+func (h *RaceHandler) DeleteRace(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusNotFound, err.Error())
+	}
+
+	err = h.service.DeleteRace(id)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, nil)
+}

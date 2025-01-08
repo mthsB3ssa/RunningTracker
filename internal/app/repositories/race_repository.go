@@ -47,5 +47,5 @@ func (repo raceRepository) FindById(id int) (*entities.Race, error) {
 }
 
 func (repo *raceRepository) Delete(id int) error {
-	return nil
+	return repo.db.Delete(&entities.Race{}, id).Error
 }
