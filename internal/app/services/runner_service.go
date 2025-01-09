@@ -14,7 +14,7 @@ type RunnerService interface {
 	CreateRunner(name string, age int) (*entities.Runner, error)
 	GetUsers() ([]entities.Runner, error)
 	FindById(id int) (*entities.Runner, error)
-	UpdateRunner(id int, name string, age int) (*entities.Runner, error)
+	UpdateRunner(runner *entities.Runner) (*entities.Runner, error)
 	DeleteRunner(id int) error
 	GetAllRunsByUser(id int) ([]entities.Runner, error)
 }
@@ -57,8 +57,8 @@ func (s *runnerService) FindById(id int) (*entities.Runner, error) {
 	return s.repo.FindById(id)
 }
 
-func (s *runnerService) UpdateRunner(id int, name string, age int) (*entities.Runner, error) {
-	existingRunner, err := s.repo.FindById(id)
+func (s *runnerService) UpdateRunner(runner *entities.Runner) (*entities.Runner, error) {
+	existingRunner, err := s.repo.FindById(runner.ID)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("Runner nor found")
@@ -66,12 +66,12 @@ func (s *runnerService) UpdateRunner(id int, name string, age int) (*entities.Ru
 		return nil, err
 	}
 
-	if name != "" {
-		existingRunner.Name = name
+	if runner.Name != "" {
+		existingRunner.Name = runner.Name
 	}
 
-	if age != 0 {
-		existingRunner.Age = age
+	if runner.Age != 0 {
+		existingRunner.Age = runner.Age
 	}
 
 	existingRunner.UpdatedAt = time.Now()
