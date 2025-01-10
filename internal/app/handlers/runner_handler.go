@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"RunningTracker/internal/app/entities"
 	"RunningTracker/internal/app/services"
 	"net/http"
 	"strconv"
@@ -60,6 +61,7 @@ func (h *RunnerHandler) FindById(c echo.Context) error {
 func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
+	// Lê os dados do JSON do body
 	var req struct {
 		Name string `json:"name"`
 		Age  int    `json:"age"`
@@ -69,7 +71,13 @@ func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	updateRunner, err := h.service.UpdateRunner(id, req.Name, req.Age)
+	runner := &entities.Runner{
+		ID:   id,
+		Name: req.Name,
+		Age:  req.Age,
+	}
+
+	updateRunner, err := h.service.UpdateRunner(runner)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
