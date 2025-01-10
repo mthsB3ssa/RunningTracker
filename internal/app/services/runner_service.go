@@ -11,7 +11,7 @@ import (
 
 // Define o contrato para os serviços que lidam com a lógica do negócio
 type RunnerService interface {
-	CreateRunner(name string, age int) (*entities.Runner, error)
+	CreateRunner(name string, age int, email string) (*entities.Runner, error)
 	GetUsers() ([]entities.Runner, error)
 	FindById(id int) (*entities.Runner, error)
 	UpdateRunner(runner *entities.Runner) (*entities.Runner, error)
@@ -30,10 +30,11 @@ func NewRunnerService(repo repositories.RunnerRepository) RunnerService {
 }
 
 // Cria uma nova instância de Runner, define os dados e chama o repo para salvar no banco
-func (s *runnerService) CreateRunner(name string, age int) (*entities.Runner, error) {
+func (s *runnerService) CreateRunner(name string, age int, email string) (*entities.Runner, error) {
 	runner := &entities.Runner{
 		Name:      name,
 		Age:       age,
+		Email:     email,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -73,6 +74,8 @@ func (s *runnerService) UpdateRunner(runner *entities.Runner) (*entities.Runner,
 	if runner.Age != 0 {
 		existingRunner.Age = runner.Age
 	}
+
+	existingRunner.Email = runner.Email
 
 	existingRunner.UpdatedAt = time.Now()
 
