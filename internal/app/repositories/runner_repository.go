@@ -40,11 +40,17 @@ func (repo *runnerRepository) GetUsers() ([]entities.Runner, error) {
 }
 
 func (repo *runnerRepository) Update(runner *entities.Runner) error {
-	err := repo.db.Model(&entities.Runner{}).Updates(runner).Error
+	err := repo.db.Model(runner).Updates(runner).Error
 	if err != nil {
 		return err
 	}
 	return nil
+	
+	// Equivalemnte à isso:
+	// err := repo.db.Model(&entities.Runner{}).
+    // Where("id = ?", runner.ID).
+    // Updates(runner).Error
+
 }
 
 func (repo *runnerRepository) Delete(id int) error {
