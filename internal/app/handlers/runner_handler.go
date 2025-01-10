@@ -73,6 +73,7 @@ func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
+	// Cria uma instância de Runner com os dados do JSON
 	runner := &entities.Runner{
 		ID:   id,
 		Name: req.Name,
