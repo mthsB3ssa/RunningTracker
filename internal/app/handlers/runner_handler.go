@@ -19,22 +19,24 @@ func NewRunnerHandler(service services.RunnerService) *RunnerHandler {
 }
 
 func (h *RunnerHandler) CreateRunner(c echo.Context) error {
-	var req struct {
-		Name  string `json:"name" validate:"required"`
-		Age   int    `json:"age"`
-		Email string `json:"email"`
-	}
+	// var req struct {
+	// 	Name  string `json:"name" validate:"required"`
+	// 	Age   int    `json:"age"`
+	// 	Email string `json:"email"`
+	// }
 
-	if err := c.Bind(&req); err != nil {
+	var runner entities.Runner
+
+	if err := c.Bind(&runner); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	runner, err := h.service.CreateRunner(req.Name, req.Age, req.Email)
+	createdRunner, err := h.service.CreateRunner(&runner)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusCreated, runner)
+	return c.JSON(http.StatusCreated, createdRunner)
 }
 
 func (h *RunnerHandler) GetUsers(c echo.Context) error {
@@ -64,9 +66,10 @@ func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 
 	// Lê os dados do JSON do body
 	var req struct {
-		Name string `json:"name"`
-		Age  int    `json:"age"`
-		Email string `json:"email"`
+		Name     string `json:"name"`
+		Age      int    `json:"age"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
 	}
 
 	if err := c.Bind(&req); err != nil {
@@ -75,10 +78,11 @@ func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 
 	// Cria uma instância de Runner com os dados do JSON
 	runner := &entities.Runner{
-		ID:   id,
-		Name: req.Name,
-		Age:  req.Age,
-		Email: req.Email,
+		ID:       id,
+		Name:     req.Name,
+		Age:      req.Age,
+		Email:    req.Email,
+		Password: req.Password,
 	}
 
 	updateRunner, err := h.service.UpdateRunner(runner)

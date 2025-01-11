@@ -3,6 +3,7 @@ package services
 import (
 	"RunningTracker/internal/app/entities"
 	"RunningTracker/internal/app/repositories"
+	"RunningTracker/internal/security"
 	"errors"
 	"time"
 
@@ -11,7 +12,7 @@ import (
 
 // Define o contrato para os serviços que lidam com a lógica do negócio
 type RunnerService interface {
-	CreateRunner(name string, age int, email string) (*entities.Runner, error)
+	CreateRunner(runner *entities.Runner) (*entities.Runner, error)
 	GetUsers() ([]entities.Runner, error)
 	FindById(id int) (*entities.Runner, error)
 	UpdateRunner(runner *entities.Runner) (*entities.Runner, error)
@@ -30,14 +31,15 @@ func NewRunnerService(repo repositories.RunnerRepository) RunnerService {
 }
 
 // Cria uma nova instância de Runner, define os dados e chama o repo para salvar no banco
-func (s *runnerService) CreateRunner(name string, age int, email string) (*entities.Runner, error) {
-	runner := &entities.Runner{
-		Name:      name,
-		Age:       age,
-		Email:     email,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+func (s *runnerService) CreateRunner(runner *entities.Runner) (*entities.Runner, error) {
+
+	if runner.Password != "" {
+		hashedPassword, _ := security.HashPassword(runner.Password)
+		runner.Password = hashedPassword
 	}
+
+	runner.CreatedAt = time.Now()
+	runner.UpdatedAt = time.Now()
 
 	err := s.repo.Create(runner)
 	if err != nil {
