@@ -19,22 +19,24 @@ func NewRunnerHandler(service services.RunnerService) *RunnerHandler {
 }
 
 func (h *RunnerHandler) CreateRunner(c echo.Context) error {
-	var req struct {
-		Name  string `json:"name" validate:"required"`
-		Age   int    `json:"age"`
-		Email string `json:"email"`
-	}
+	// var req struct {
+	// 	Name  string `json:"name" validate:"required"`
+	// 	Age   int    `json:"age"`
+	// 	Email string `json:"email"`
+	// }
 
-	if err := c.Bind(&req); err != nil {
+	var runner entities.Runner
+
+	if err := c.Bind(&runner); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	runner, err := h.service.CreateRunner(req.Name, req.Age, req.Email)
+	createdRunner, err := h.service.CreateRunner(&runner)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusCreated, runner)
+	return c.JSON(http.StatusCreated, createdRunner)
 }
 
 func (h *RunnerHandler) GetUsers(c echo.Context) error {
