@@ -64,9 +64,10 @@ func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 
 	// Lê os dados do JSON do body
 	var req struct {
-		Name string `json:"name"`
-		Age  int    `json:"age"`
-		Email string `json:"email"`
+		Name     string `json:"name"`
+		Age      int    `json:"age"`
+		Email    string `json:"email"`
+		Password string `json:"password"`
 	}
 
 	if err := c.Bind(&req); err != nil {
@@ -75,10 +76,11 @@ func (h *RunnerHandler) UpdateRunner(c echo.Context) error {
 
 	// Cria uma instância de Runner com os dados do JSON
 	runner := &entities.Runner{
-		ID:   id,
-		Name: req.Name,
-		Age:  req.Age,
-		Email: req.Email,
+		ID:       id,
+		Name:     req.Name,
+		Age:      req.Age,
+		Email:    req.Email,
+		Password: req.Password,
 	}
 
 	updateRunner, err := h.service.UpdateRunner(runner)
