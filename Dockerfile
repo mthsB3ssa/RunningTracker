@@ -1,26 +1,20 @@
-# Stage 1: Build
-FROM golang:1.21 AS builder
+FROM golang:1.21
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+# Instala o CompileDaemon para reinicialização automática
+RUN go install github.com/githubnemo/CompileDaemon@latest
 
+# Copia os arquivos de dependências e baixa os módulos
+COPY go.mod go.sum ./
 RUN go mod download
 
+# Copia o restante do código
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/main ./cmd/api
-
 EXPOSE 8080
 
+# O CompileDaemon monitora mudanças, recompila e executa a aplicação
+CMD CompileDaemon -build="go build -buildvcs=false -o main ./cmd/api" -command=./main
 
-# Stage 2: Final Image
-FROM debian:bullseye-slim
 
-WORKDIR /app
-
-COPY --from=builder /app/main .
-
-EXPOSE 8080
-
-CMD ["./main"]

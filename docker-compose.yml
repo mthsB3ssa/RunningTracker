@@ -3,6 +3,8 @@ services:
     build: .
     ports:
       - "8080:8080"
+    volumes:
+      - .:/app  # Monta o código-fonte para refletir as alterações imediatamente
     env_file:
       - .env
     depends_on:
@@ -14,8 +16,8 @@ services:
       POSTGRES_USER: bessa
       POSTGRES_PASSWORD: bessa
       POSTGRES_DB: runningdb
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
