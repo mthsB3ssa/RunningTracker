@@ -19,11 +19,6 @@ func NewRunnerHandler(service services.RunnerService) *RunnerHandler {
 }
 
 func (h *RunnerHandler) CreateRunner(c echo.Context) error {
-	// var req struct {
-	// 	Name  string `json:"name" validate:"required"`
-	// 	Age   int    `json:"age"`
-	// 	Email string `json:"email"`
-	// }
 
 	var runner entities.Runner
 
