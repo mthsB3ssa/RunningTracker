@@ -14,7 +14,6 @@ type RaceHandler struct {
 
 func NewRaceHandler(service services.RaceService) *RaceHandler {
 	return &RaceHandler{service: service}
-
 }
 
 func (h *RaceHandler) CreateRace(c echo.Context) error {
