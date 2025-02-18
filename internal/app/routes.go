@@ -1,7 +1,7 @@
 package app
 
 import (
-	"RunningTracker/internal/app/handlers"
+	"RunningTracker/internal/app/controllers"
 
 	"github.com/labstack/echo/v4"
 )
