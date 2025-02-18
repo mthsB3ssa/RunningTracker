@@ -1,7 +1,7 @@
 package app
 
 import (
-	"RunningTracker/internal/app/handlers"
+	"RunningTracker/internal/app/controllers"
 	"RunningTracker/internal/app/repositories"
 	"RunningTracker/internal/app/services"
 	"RunningTracker/internal/infra/db"
